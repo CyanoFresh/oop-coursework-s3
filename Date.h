@@ -10,7 +10,9 @@ private:
     int year, month, day;
 protected:
     static int checkMonth(int month);
+
     static int checkDay(int day);
+
 public:
     Date(int year, int month, int day);
 

@@ -3,4 +3,4 @@ project(coursework)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(coursework main.cpp Date.cpp Date.h Customer.cpp Customer.h)
+add_executable(coursework main.cpp Date.cpp Date.h Customer.cpp Customer.h Product.cpp Product.h)
