@@ -7,19 +7,18 @@
 using namespace std;
 
 class Product {
-private:
     string name;
     float price;
     bool hasDiscount;
 protected:
-    static string &checkName(const string &name);
+    static string validateName(const string &name);
 
-    static float checkPrice(float price);
+    static float validatePrice(float price);
 
-    static bool checkHasDiscount(bool hasDiscount);
+    static bool validateHasDiscount(bool hasDiscount);
 
 public:
-    Product(const string& name, float price, bool hasDiscount);
+    Product(const string &name, float price, bool hasDiscount);
 
     const string &getName() const;
 

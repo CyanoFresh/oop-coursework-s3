@@ -9,9 +9,11 @@ class Date {
 private:
     int year, month, day;
 protected:
-    static int checkMonth(int month);
+    static int validateMonth(int month);
 
-    static int checkDay(int day);
+    static int validateDay(int day);
+
+    static int validateYear(int year);
 
 public:
     Date(int year, int month, int day);

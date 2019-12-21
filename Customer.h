@@ -7,14 +7,13 @@
 using namespace std;
 
 class Customer {
-private:
     long id;
     float total;
     float discount;
 protected:
-    static float checkTotal(float total);
+    static float validateTotal(float total);
 
-    static float checkDiscount(float discount);
+    static float validateDiscount(float discount);
 
 public:
     Customer(long id, float total, float discount);

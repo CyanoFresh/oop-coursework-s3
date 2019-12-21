@@ -1,5 +1,41 @@
 @startuml
 
+class Date {
+    int year
+    int month
+    int day
+}
 
+class Customer {
+    long id
+    float total
+    float discount
+}
+
+class Product {
+    string name
+    float price
+    bool hasDiscount
+}
+
+class Order {
+    Customer customer
+    Product *products
+    Date date
+    float totalPrice
+    float total
+}
+
+class DailyReport {
+    Order *orders
+    Date date
+}
+
+Order *- Date
+Order o-- Product
+Order o-- Customer
+
+DailyReport o-- Order
+DailyReport *-- Date
 
 @enduml

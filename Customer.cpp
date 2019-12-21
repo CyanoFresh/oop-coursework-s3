@@ -1,10 +1,10 @@
 #include "Customer.h"
-#include <stdexcept>
+#include "ValidationException.h"
 
 Customer::Customer(long id, float total, float discount)
         : id(id),
-          total(checkTotal(total)),
-          discount(checkDiscount(discount)) {}
+          total(validateTotal(total)),
+          discount(validateDiscount(discount)) {}
 
 long Customer::getId() const {
     return id;
@@ -19,7 +19,7 @@ float Customer::getTotal() const {
 }
 
 void Customer::setTotal(float total) {
-    Customer::total = checkTotal(total);
+    Customer::total = validateTotal(total);
 }
 
 float Customer::getDiscount() const {
@@ -27,23 +27,23 @@ float Customer::getDiscount() const {
 }
 
 void Customer::setDiscount(float discount) {
-    Customer::discount = checkDiscount(discount);
+    Customer::discount = validateDiscount(discount);
 }
 
 std::ostream &operator<<(std::ostream &os, const Customer &customer) {
     return os << "[Customer] id: " << customer.id << " total: " << customer.total << " discount: " << customer.discount;
 }
 
-float Customer::checkTotal(float total) {
+float Customer::validateTotal(float total) {
     if (total < 0) {
-        throw invalid_argument("Wrong Customer total: should be greater than 0");
+        throw ValidationException("Wrong Customer total: should be greater than 0");
     }
     return total;
 }
 
-float Customer::checkDiscount(float discount) {
+float Customer::validateDiscount(float discount) {
     if (discount < 0 || discount > 1) {
-        throw invalid_argument("Wrong Customer discount: should be between 0 and 1");
+        throw ValidationException("Wrong Customer discount: should be between 0 and 1");
     }
     return discount;
 }

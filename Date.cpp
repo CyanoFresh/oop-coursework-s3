@@ -1,17 +1,17 @@
-#include <stdexcept>
 #include "Date.h"
+#include "ValidationException.h"
 
 Date::Date(int year, int month, int day)
         : year(year),
-          month(checkMonth(month)),
-          day(checkDay(day)) {}
+          month(validateMonth(month)),
+          day(validateDay(day)) {}
 
 int Date::getYear() const {
     return year;
 }
 
 void Date::setYear(int year) {
-    Date::year = year;
+    Date::year = validateYear(year);
 }
 
 int Date::getMonth() const {
@@ -19,7 +19,7 @@ int Date::getMonth() const {
 }
 
 void Date::setMonth(int month) {
-    Date::month = checkDay(month);
+    Date::month = validateDay(month);
 }
 
 int Date::getDay() const {
@@ -27,20 +27,28 @@ int Date::getDay() const {
 }
 
 void Date::setDay(int day) {
-    Date::day = checkDay(day);
+    Date::day = validateDay(day);
 }
 
-int Date::checkMonth(int month) {
+int Date::validateYear(int year){
+    if (year < 1980 || year > 2100) {
+        throw ValidationException("Wrong Date year: are you time traveler?");
+    }
+
+    return year;
+}
+
+int Date::validateMonth(int month) {
     if (month < 1 || month > 12) {
-        throw invalid_argument("Wrong Date month: should be between 1 and 12");
+        throw ValidationException("Wrong Date month: should be between 1 and 12");
     }
 
     return month;
 }
 
-int Date::checkDay(int day) {
+int Date::validateDay(int day) {
     if (day < 1 || day > 31) {
-        throw invalid_argument("Wrong Date day: should be between 1 and 31");
+        throw ValidationException("Wrong Date day: should be between 1 and 31");
     }
 
     return day;
