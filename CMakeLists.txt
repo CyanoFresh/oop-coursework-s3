@@ -29,4 +29,5 @@ add_executable(coursework
         ./table/Table.cpp
         ./table/Table.h
         ./table/TableExceptions.h
+        Array.h
         table/ATable.h)

@@ -7,7 +7,9 @@ using namespace std;
 
 class Date {
 private:
-    int year, month, day;
+    int year = 0;
+    int month = 0;
+    int day = 0;
 protected:
     static int validateMonth(int month);
 
@@ -17,6 +19,8 @@ protected:
 
 public:
     Date(int year, int month, int day);
+
+    Date() = default;
 
     int getYear() const;
 

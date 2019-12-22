@@ -1,5 +1,7 @@
 #include <iostream>
 #include "Date.h"
+#include "ValidationException.h"
+#include "Order.h"
 
 using namespace std;
 
@@ -8,7 +10,9 @@ void handleCmd(const char cmd) {
 
     switch (cmd) {
         case '1':
-            cout << "LOL" << endl;
+            for (int i = 0; i < 10; ++i) {
+                auto order = new Order();
+            }
             break;
         default:
             cerr << "Invalid option number" << endl;
@@ -23,7 +27,7 @@ int main() {
 
     do {
         cout << "Menu:\n\n";
-        cout << "|1|  Create Files\n";
+        cout << "|1|  Create Objects\n";
         cout << "|2|  Print data\n";
         cout << "|3|  Write to file\n";
         cout << "|4|  Read from file\n";
@@ -35,7 +39,7 @@ int main() {
 
         try {
             handleCmd(option);
-        } catch (invalid_argument &e) {
+        } catch (ValidationException &e) {
             cerr << e.what() << endl;
             continue;
         } catch (exception &e) {
