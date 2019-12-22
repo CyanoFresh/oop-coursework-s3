@@ -8,22 +8,32 @@
 #include "Array.h"
 
 class Order {
-    Customer *customer;
-    Array <Product> products;
+    Customer *customer = nullptr;
+    Array<Product *> products;
     Date date;
-    float totalPrice;
-    float total;
+    float total = 0;
+    float totalWithDiscount = 0;
+protected:
+    static float validateTotal(float total);
+
+    float validateTotalWithDiscount(float totalWithDiscount);
+
 public:
-    Order(Customer *customer, const Array<Product>& products, const Date &date, float totalPrice, float total);
-    Order();
+    Order(Customer *customer, Array<Product *> products, const Date &date, float totalPrice, float total);
+
+    Order() = default;
 
     Customer *getCustomer() const;
 
     void setCustomer(Customer *customer);
 
-    const Array<Product> &getProducts() const;
+    const Array<Product *> &getProducts() const;
 
-    void setProducts(const Array<Product> &products);
+    Product *operator[](int i);
+
+    void addProduct(Product *product);
+
+    void setProducts(Array<Product *> products);
 
     const Date &getDate() const;
 
@@ -36,6 +46,8 @@ public:
     float getTotal() const;
 
     void setTotal(float total);
+
+    void recalculate();
 };
 
 

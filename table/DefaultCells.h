@@ -32,9 +32,9 @@ namespace ATable {
 
     class LongCell : public Cell {
     public:
-        int value;
+        long value;
     public:
-        LongCell(int value) {
+        LongCell(long value) {
             this->value = value;
         }
 

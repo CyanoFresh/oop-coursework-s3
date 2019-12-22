@@ -22,7 +22,7 @@ class Order {
     Customer customer
     Product *products
     Date date
-    float totalPrice
+    float totalWithDiscount
     float total
 }
 

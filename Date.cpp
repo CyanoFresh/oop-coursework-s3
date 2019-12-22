@@ -55,5 +55,5 @@ int Date::validateDay(int day) {
 }
 
 ostream &operator<<(ostream &os, const Date &date) {
-    return os << "[Date] year: " << date.year << " month: " << date.month << " day: " << date.day;
+    return os << date.year << "." << date.month << "." << date.day;
 }

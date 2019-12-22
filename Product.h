@@ -8,8 +8,8 @@ using namespace std;
 
 class Product {
     string name;
-    float price;
-    bool hasDiscount;
+    float price = 0;
+    bool hasDiscount = false;
 protected:
     static string validateName(const string &name);
 
@@ -19,6 +19,8 @@ protected:
 
 public:
     Product(const string &name, float price, bool hasDiscount);
+
+    Product() = default;
 
     const string &getName() const;
 
@@ -33,6 +35,12 @@ public:
     void setHasDiscount(bool hasDiscount);
 
     friend ostream &operator<<(ostream &os, const Product &product);
+
+    friend istream &operator>>(istream &is, Product *product);
+
+    bool operator==(const Product &rhs) const;
+
+    bool operator!=(const Product &rhs) const;
 };
 
 

@@ -96,8 +96,7 @@ public:
             if (i < 0 || i > _size - 1)
                 throw std::logic_error("Bounds error");
             return data[i];
-        }
-        catch (std::exception &e) {
+        } catch (exception &e) {
             std::cerr << e.what() << std::endl;
         }
     }

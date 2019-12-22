@@ -2,17 +2,43 @@
 #include "Date.h"
 #include "ValidationException.h"
 #include "Order.h"
+#include "DailyReport.h"
 
 using namespace std;
 
-void handleCmd(const char cmd) {
+const int arrSize = 1;
+
+void handleCmd(const char cmd, DailyReport *dailyReport) {
     cout << "\n";
 
     switch (cmd) {
         case '1':
-            for (int i = 0; i < 10; ++i) {
+            for (int i = 0; i < arrSize; ++i) {
+                cout << "Filling Order #" << i + 1 << " of " << arrSize << endl;
+
                 auto order = new Order();
+                auto customer = new Customer();
+
+                cin >> customer;
+                cout << endl;
+
+                order->setCustomer(customer);
+
+                for (int j = 0; j < arrSize; ++j) {
+                    cout << "Filling Product #" << j + 1 << " of " << arrSize << endl;
+                    auto product = new Product();
+                    cin >> product;
+                    cout << endl;
+                    order->addProduct(product);
+                }
+
+                order->setDate(dailyReport->getDate());
+
+                dailyReport->addOrder(order);
             }
+            break;
+        case '2':
+            cout << dailyReport << endl;
             break;
         default:
             cerr << "Invalid option number" << endl;
@@ -23,6 +49,10 @@ void handleCmd(const char cmd) {
 }
 
 int main() {
+    auto dailyReport = new DailyReport();
+
+    dailyReport->setDate(Date(2019, 12, 22));
+
     char option;
 
     do {
@@ -38,7 +68,7 @@ int main() {
         cin >> option;
 
         try {
-            handleCmd(option);
+            handleCmd(option, dailyReport);
         } catch (ValidationException &e) {
             cerr << e.what() << endl;
             continue;

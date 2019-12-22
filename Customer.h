@@ -7,16 +7,20 @@
 using namespace std;
 
 class Customer {
-    long id;
-    float total;
-    float discount;
+    long id = 0;
+    float total = 0;
+    float discount = 0;
 protected:
     static float validateTotal(float total);
 
     static float validateDiscount(float discount);
 
+    static long validateId(long id);
+
 public:
     Customer(long id, float total, float discount);
+
+    Customer() = default;
 
     long getId() const;
 
@@ -31,6 +35,8 @@ public:
     void setDiscount(float discount);
 
     friend std::ostream &operator<<(std::ostream &os, const Customer &customer);
+
+    friend std::istream &operator>>(std::istream &is, Customer *customer);
 };
 
 
