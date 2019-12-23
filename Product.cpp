@@ -1,5 +1,4 @@
 #include "Product.h"
-#include "ValidationException.h"
 
 Product::Product(const string &name, float price, bool hasDiscount)
         : name(validateName(name)),
@@ -115,4 +114,33 @@ bool Product::operator==(const Product &rhs) const {
 
 bool Product::operator!=(const Product &rhs) const {
     return !(rhs == *this);
+}
+
+void Product::write(ofstream &stream) {
+    int nameLength = name.length();
+    stream.write((char *) &nameLength, sizeof(nameLength));
+    stream.write((char *) &name[0], sizeof(char) * nameLength);
+
+    stream.write((char *) &price, sizeof(price));
+    stream.write((char *) &hasDiscount, sizeof(hasDiscount));
+}
+
+json Product::jsonSerialize() {
+    json obj;
+    obj["name"] = name;
+    obj["price"] = price;
+    obj["hasDiscount"] = hasDiscount;
+    return obj;
+}
+
+void Product::read(ifstream &stream) {
+    int nameLength;
+    stream.read((char *) &nameLength, sizeof(nameLength));
+    name.resize(nameLength);
+    stream.read((char *) &name[0], nameLength * sizeof(char));
+
+    cout << name <<endl;
+
+    stream.read((char *) &price, sizeof(price));
+    stream.read((char *) &hasDiscount, sizeof(hasDiscount));
 }

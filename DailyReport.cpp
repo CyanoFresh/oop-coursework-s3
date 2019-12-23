@@ -1,5 +1,4 @@
 #include "DailyReport.h"
-#include "table/ATable.h"
 
 DailyReport::DailyReport(const Array<Order *> &orders, const Date &date) : orders(orders), date(date) {}
 
@@ -9,6 +8,10 @@ const Array<Order *> &DailyReport::getOrders() const {
 
 void DailyReport::setOrders(Array<Order *> orders) {
     DailyReport::orders = orders;
+}
+
+void DailyReport::clear() {
+    DailyReport::orders.clear();
 }
 
 const Date &DailyReport::getDate() const {
@@ -30,7 +33,7 @@ Order *DailyReport::operator[](int i) {
 ostream &operator<<(ostream &os, DailyReport *report) {
     os << "Order for " << report->date << endl;
 
-    auto table = new ATable::Table(ATable::DefaultAppearance(), "Orders");
+    ATable::Table *table = new ATable::Table(ATable::DefaultAppearance(), "Orders");
     auto productTables = new vector<ATable::Table *>;
 
     table->addColumn(new ATable::SimpleColumn("Order #", 20));
@@ -76,4 +79,11 @@ ostream &operator<<(ostream &os, DailyReport *report) {
     delete productTables;
 
     return os;
+}
+
+json DailyReport::jsonSerialize() {
+    json j;
+    j["date"] = date.jsonSerialize();
+    j["orders"] = orders.jsonSerialize();
+    return j;
 }

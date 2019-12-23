@@ -3,8 +3,11 @@
 
 #include <string>
 #include <ostream>
+#include "nlohmann/json.hpp"
+#include "ValidationException.h"
 
 using namespace std;
+using namespace nlohmann;
 
 class Product {
     string name;
@@ -41,6 +44,12 @@ public:
     bool operator==(const Product &rhs) const;
 
     bool operator!=(const Product &rhs) const;
+
+    void write(ofstream &stream);
+
+    json jsonSerialize();
+
+    void read(ifstream &stream);
 };
 
 

@@ -92,13 +92,8 @@ public:
     }
 
     T &at(int i) {
-        try {
-            if (i < 0 || i > _size - 1)
-                throw std::logic_error("Bounds error");
-            return data[i];
-        } catch (exception &e) {
-            std::cerr << e.what() << std::endl;
-        }
+        if (i < 0 || i > _size - 1) throw std::logic_error("Bounds error");
+        return data[i];
     }
 
     T &operator[](int i) {
@@ -112,34 +107,14 @@ public:
 
     explicit Array(const int reserve_size) : _size(0), data(new T[reserve_size]), _capacity(reserve_size) {}
 
-    friend std::ostream &operator<<(std::ostream &stream, const Array<T> &to_print) {
-        try {
-            //stream << to_print.size() << std::endl;
-            for (int i = 0; i < to_print._size; ++i) {
-                stream << to_print.data[i];
-                stream << std::endl;
-            }
+    json jsonSerialize() {
+        json arr = json::array();
+        for (int i = 0; i < size(); ++i) {
+            auto t = at(i);
+            arr.push_back(t->jsonSerialize());
         }
-        catch (const std::exception &e) {
-            std::cerr << e.what() << std::endl;
-        }
-        return stream;
+        return arr;
     }
-
-    friend std::istream &operator>>(std::istream &stream, Array<T> &to_read) {
-        try {
-            while (!stream.eof()) {
-                T item;
-                stream >> item;
-                to_read.assign(item);
-            }
-        }
-        catch (const std::exception &e) {
-            std::cerr << e.what() << std::endl;
-        }
-        return stream;
-    }
-
 };
 
 template<typename T>

@@ -5,6 +5,10 @@
 #include <ostream>
 #include "Order.h"
 #include "Date.h"
+#include "table/ATable.h"
+#include "nlohmann/json.hpp"
+
+using namespace nlohmann;
 
 class DailyReport {
     Array<Order *> orders;
@@ -13,6 +17,8 @@ public:
     DailyReport(const Array<Order *> &orders, const Date &date);
 
     DailyReport() = default;
+
+    ~DailyReport() = default;
 
     const Array<Order *> &getOrders() const;
 
@@ -27,6 +33,12 @@ public:
     void addOrder(Order *order);
 
     friend ostream &operator<<(ostream &os, DailyReport *report);
+
+    json jsonSerialize();
+
+    void clear();
+
+    void read(ifstream &stream);
 };
 
 

@@ -103,3 +103,23 @@ std::istream &operator>>(std::istream &is, Customer *customer) {
 
     return is;
 }
+
+void Customer::write(ofstream &stream) {
+    stream.write((char *) &id, sizeof(id));
+    stream.write((char *) &total, sizeof(total));
+    stream.write((char *) &discount, sizeof(discount));
+}
+
+json Customer::jsonSerialize() {
+    json obj;
+    obj["id"] = id;
+    obj["total"] = total;
+    obj["discount"] = discount;
+    return obj;
+}
+
+void Customer::read(ifstream &ifstream) {
+    ifstream.read((char *) &id, sizeof(id));
+    ifstream.read((char *) &total, sizeof(total));
+    ifstream.read((char *) &discount, sizeof(discount));
+}

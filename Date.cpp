@@ -30,7 +30,7 @@ void Date::setDay(int day) {
     Date::day = validateDay(day);
 }
 
-int Date::validateYear(int year){
+int Date::validateYear(int year) {
     if (year < 1980 || year > 2100) {
         throw ValidationException("Wrong Date year: are you time traveler?");
     }
@@ -56,4 +56,20 @@ int Date::validateDay(int day) {
 
 ostream &operator<<(ostream &os, const Date &date) {
     return os << date.year << "." << date.month << "." << date.day;
+}
+
+void Date::write(ofstream &stream) {
+    stream.write((char *) &year, sizeof(year));
+    stream.write((char *) &month, sizeof(month));
+    stream.write((char *) &day, sizeof(day));
+}
+
+json Date::jsonSerialize() {
+    return json::array({year, month, day});
+}
+
+void Date::read(ifstream &ifstream) {
+    ifstream.read((char *) &year, sizeof(year));
+    ifstream.read((char *) &month, sizeof(month));
+    ifstream.read((char *) &day, sizeof(day));
 }

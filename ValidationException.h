@@ -3,6 +3,8 @@
 
 #include <stdexcept>
 #include <iostream>
+#include <fstream>
+#include <ostream>
 
 using namespace std;
 

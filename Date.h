@@ -1,11 +1,14 @@
 #ifndef COURSEWORK_DATE_H
 #define COURSEWORK_DATE_H
 
-#include <ostream>
+#include "ValidationException.h"
+#include "Writable.h"
+#include "nlohmann/json.hpp"
 
 using namespace std;
+using namespace nlohmann;
 
-class Date {
+class Date: public Writable {
 private:
     int year = 0;
     int month = 0;
@@ -35,6 +38,12 @@ public:
     void setDay(int day);
 
     friend ostream &operator<<(ostream &os, const Date &date);
+
+    void write(ofstream &stream);
+
+    json jsonSerialize();
+
+    void read(ifstream &ifstream);
 };
 
 

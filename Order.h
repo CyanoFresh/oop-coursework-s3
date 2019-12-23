@@ -7,7 +7,7 @@
 #include "Date.h"
 #include "Array.h"
 
-class Order {
+class Order: public Writable {
     Customer *customer = nullptr;
     Array<Product *> products;
     Date date;
@@ -22,6 +22,8 @@ public:
     Order(Customer *customer, Array<Product *> products, const Date &date, float totalPrice, float total);
 
     Order() = default;
+
+    ~Order() = default;
 
     Customer *getCustomer() const;
 
@@ -48,6 +50,12 @@ public:
     void setTotal(float total);
 
     void recalculate();
+
+    void write(ofstream &stream);
+
+    json jsonSerialize();
+
+    void read(ifstream &stream);
 };
 
 

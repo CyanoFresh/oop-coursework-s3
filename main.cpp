@@ -8,6 +8,26 @@ using namespace std;
 
 const int arrSize = 1;
 
+string inputFilename() {
+    string filename;
+
+    while (true) {
+        cin.clear();
+        cin.sync();
+
+        cout << "Enter filename:" << endl;
+
+        getline(cin, filename);
+
+        if (filename.empty()) {
+            cerr << "Wrong filename" << endl;
+            continue;
+        }
+
+        return filename;
+    }
+}
+
 void handleCmd(const char cmd, DailyReport *dailyReport) {
     cout << "\n";
 
@@ -40,6 +60,140 @@ void handleCmd(const char cmd, DailyReport *dailyReport) {
         case '2':
             cout << dailyReport << endl;
             break;
+        case '3':
+            char choice;
+
+            do {
+                string filename;
+
+                cout << "Select file type:" << endl;
+                cout << "|1|  Binary\n";
+                cout << "|2|  Text\n";
+                cout << "|0|  Back\n";
+                cout << "Enter option number:" << endl;
+
+                cin >> choice;
+
+                if (choice == '1' || choice == '2') {
+                    filename = inputFilename();
+
+                    ofstream file(filename, ios::binary);
+
+                    if (!file.is_open()) {
+                        cerr << "Cannot open file" << endl;
+                        continue;
+                    }
+
+                    if (choice == '1') {
+                        unsigned int size = dailyReport->getOrders().size();
+
+                        file.write((char *) &size, sizeof(unsigned int));
+
+                        for (int i = 0; i < size; i++) {
+                            (*dailyReport)[i]->write(file);
+                        }
+                    } else if (choice == '2') {
+                        file << dailyReport->jsonSerialize().dump(4);
+                    }
+
+                    file.close();
+                    break;
+                }
+            } while (choice != '0');
+
+            break;
+        case '4': {
+            string filename = inputFilename();
+
+            ifstream file(filename, ios::binary);
+
+            if (!file.is_open()) {
+                cerr << "Cannot open file" << endl;
+                break;
+            }
+
+            do {
+                cout << "Select file type:" << endl;
+                cout << "|1|  Binary\n";
+                cout << "|2|  Text\n";
+                cout << "|0|  Back\n";
+                cout << "Enter option number:" << endl;
+
+                cin >> choice;
+                dailyReport->clear();
+
+                if (choice == '1') {
+                    int size;
+                    file.read((char *) &size, sizeof(int));
+                    for (size_t i = 0; i < size; i++) {
+                        auto order = new Order();
+                        order->read(file);
+                        dailyReport->addOrder(order);
+                        delete order;
+                    }
+                    cout << "Success!" << endl;
+                    break;
+                } else if (choice == '2') {
+                    dailyReport->jsonDeserialize(file);
+                    cout << "Success!" << endl;
+                    break;
+                }
+            } while (choice != '0');
+
+            file.close();
+
+            break;
+        }
+        case '5': {
+            do {
+                cout << "Select search type:" << endl;
+                cout << "|1|  By text\n";
+                cout << "|2|  By number\n";
+                cout << "|0|  Back\n";
+                cout << "Enter option number:" << endl;
+
+                cin >> choice;
+
+                if (choice == '1') {
+                    string str;
+                    getline(cin, str);
+                    dailyReport->searchByText(str);
+                    break;
+                } else if (choice == '2') {
+                    int look;
+                    cin >> look;
+                    dailyReport->searchByNum(look);
+                    break;
+                }
+            } while (choice != '0');
+
+            break;
+        }
+        case '6': {
+            do {
+                cout << "Select search type:" << endl;
+                cout << "|1|  By text\n";
+                cout << "|2|  By number\n";
+                cout << "|0|  Back\n";
+                cout << "Enter option number:" << endl;
+
+                cin >> choice;
+
+                if (choice == '1') {
+                    string str;
+                    getline(cin, str);
+                    dailyReport->searchByText(str);
+                    break;
+                } else if (choice == '2') {
+                    int look;
+                    cin >> look;
+                    dailyReport->searchByNum(look);
+                    break;
+                }
+            } while (choice != '0');
+
+            break;
+        }
         default:
             cerr << "Invalid option number" << endl;
             break;
@@ -62,6 +216,7 @@ int main() {
         cout << "|3|  Write to file\n";
         cout << "|4|  Read from file\n";
         cout << "|5|  Search\n";
+        cout << "|6|  Show average\n";
         cout << "|0|  Exit\n";
         cout << "Enter option number:" << endl;
 

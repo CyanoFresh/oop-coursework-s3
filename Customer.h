@@ -3,10 +3,14 @@
 
 
 #include <ostream>
+#include "Writable.h"
+#include "nlohmann/json.hpp"
+#include "ValidationException.h"
 
 using namespace std;
+using namespace nlohmann;
 
-class Customer {
+class Customer: public Writable {
     long id = 0;
     float total = 0;
     float discount = 0;
@@ -37,6 +41,12 @@ public:
     friend std::ostream &operator<<(std::ostream &os, const Customer &customer);
 
     friend std::istream &operator>>(std::istream &is, Customer *customer);
+
+    void write(ofstream &stream);
+
+    json jsonSerialize();
+
+    void read(ifstream &ifstream);
 };
 
 

@@ -83,3 +83,45 @@ void Order::recalculate() {
         }
     }
 }
+
+void Order::write(ofstream &stream) {
+    stream.write((char *) &total, sizeof(total));
+    stream.write((char *) &totalWithDiscount, sizeof(totalWithDiscount));
+
+    date.write(stream);
+    customer->write(stream);
+
+    unsigned int size = products.size();
+    stream.write((char *) &size, sizeof(size));
+
+    for (int i = 0; i < size; ++i) {
+        products[i]->write(stream);
+    }
+}
+
+json Order::jsonSerialize() {
+    json obj;
+    obj["products"] = products.jsonSerialize();
+    obj["customer"] = customer->jsonSerialize();
+    obj["total"] = total;
+    obj["totalWithDiscount"] = totalWithDiscount;
+    return obj;
+}
+
+void Order::read(ifstream &stream) {
+    stream.read((char *) &total, sizeof(float));
+    stream.read((char *) &totalWithDiscount, sizeof(float));
+
+    date.read(stream);
+    customer = new Customer();
+    customer->read(stream);
+
+    int size;
+    stream.read((char *) &size, sizeof(int));
+    for (size_t i = 0; i < size; i++) {
+        auto product = new Product();
+        product->read(stream);
+        addProduct(product);
+        delete product;
+    }
+}
