@@ -28,6 +28,28 @@ string inputFilename() {
     }
 }
 
+template<class T>
+T averageProductsCount(Array<Order *> orders) {
+    T sum = 0;
+
+    for (int i = 0; i < orders.size(); ++i) {
+        sum += orders[i]->getProducts().size();
+    }
+
+    return sum / orders.size();
+}
+
+template<typename T>
+T averageTotal(Array<Order *> orders) {
+    T sum = 0;
+
+    for (int i = 0; i < orders.size(); ++i) {
+        sum += orders[i]->getTotalPrice();
+    }
+
+    return sum / orders.size();
+}
+
 void handleCmd(const char cmd, DailyReport *dailyReport) {
     cout << "\n";
 
@@ -170,28 +192,8 @@ void handleCmd(const char cmd, DailyReport *dailyReport) {
             break;
         }
         case '6': {
-            do {
-                cout << "Select search type:" << endl;
-                cout << "|1|  By text\n";
-                cout << "|2|  By number\n";
-                cout << "|0|  Back\n";
-                cout << "Enter option number:" << endl;
-
-                cin >> choice;
-
-                if (choice == '1') {
-                    string str;
-                    getline(cin, str);
-                    dailyReport->searchByText(str);
-                    break;
-                } else if (choice == '2') {
-                    int look;
-                    cin >> look;
-                    dailyReport->searchByNum(look);
-                    break;
-                }
-            } while (choice != '0');
-
+            cout << "Products count: " << averageProductsCount<float>(dailyReport->getOrders()) << endl;
+            cout << "Average total: " << averageTotal<float>(dailyReport->getOrders()) << endl;
             break;
         }
         default:
