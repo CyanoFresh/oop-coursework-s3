@@ -1,41 +1,51 @@
 @startuml
 
-abstract class Readable {
+interface Readable {
     read()
 }
-abstract class Writeable {
+
+interface Writeable {
     write()
 }
 
+class Array<T> {
+    +assign(T)
+    +operator[](int)
+}
+
 class Date {
-    int year
-    int month
-    int day
+    - int year
+    - int month
+    - int day
 }
 
 class Customer {
-    long id
-    float total
-    float discount
+    - long id
+    - float total
+    - float discount
+    + operator+(int)
 }
 
 class Product {
-    string name
-    float price
-    bool hasDiscount
+    - string name
+    - float price
+    - bool hasDiscount
+    + operator+(int)
 }
 
 class Order {
-    Customer customer
-    Array<Product *> products
-    Date date
-    float totalWithDiscount
-    float total
+    - Customer customer
+    - Array<Product *> products
+    - Date date
+    - float totalWithDiscount
+    - float total
+    + addProduct(Product)
 }
 
 class DailyReport {
-    Array<Order *> orders
-    Date date
+    - Array<Order *> orders
+    - Date date
+    + addOrder(Order)
 }
 
 Order *- Date
@@ -49,9 +59,18 @@ Writeable <|.. Order
 Writeable <|. Product
 Writeable <|. Customer
 Writeable <|. Date
+Writeable <|.. DailyReport
 Readable <|. Date
 Readable <|. Customer
 Readable <|. Product
 Readable <|.. Order
+Readable <|.. DailyReport
+
+class std::invalid_argument {
+}
+class ValidationException {
+}
+
+std::invalid_argument <|-- ValidationException
 
 @enduml

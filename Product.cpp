@@ -1,4 +1,5 @@
 #include "Product.h"
+#include "table/ATable.h"
 
 Product::Product(const string &name, float price, bool hasDiscount)
         : name(validateName(name)),
@@ -30,8 +31,19 @@ void Product::setHasDiscount(bool hasDiscount) {
 }
 
 ostream &operator<<(ostream &os, const Product &product) {
-    return os << "[Product] name: " << product.name << " price: " << product.price << " hasDiscount: "
-              << product.hasDiscount;;
+    ATable::Table* table = new ATable::Table(ATable::DefaultAppearance(), "Test table"); // creating a new table with default borders
+
+    table->addColumn(new ATable::SimpleColumn("Name", 25));
+    table->addColumn(new ATable::SimpleColumn("Price", 15));
+    table->addColumn(new ATable::SimpleColumn("Has Discount", 20));
+
+    table->addCell(0, new ATable::StringCell(product.getName()));
+    table->addCell(1, new ATable::FloatCell(product.getPrice()));
+    table->addCell(2, new ATable::FloatCell(product.isHasDiscount()));
+
+    table->print(os);
+
+    return os;
 }
 
 istream &operator>>(istream &is, Product *product) {
@@ -89,8 +101,8 @@ istream &operator>>(istream &is, Product *product) {
 }
 
 string Product::validateName(const string &name) {
-    if (name.length() < 3 || name.length() > 255) {
-        throw ValidationException("Product name should be longer than 3 and shorter than 255 symbols");
+    if (name.length() < 3 || name.length() > 25) {
+        throw ValidationException("Product name should be longer than 3 and shorter than 25 symbols");
     }
     return name;
 }

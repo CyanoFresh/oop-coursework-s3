@@ -125,3 +125,15 @@ void Order::read(ifstream &stream) {
         delete product;
     }
 }
+
+template<class T>
+Order Order::operator+(T plusTotal) {
+    totalWithDiscount += plusTotal;
+    return *this;
+}
+
+void Order::jsonDeserialize(json j) {
+    date = Date(j["date"][0], j["date"][1], j["date"][2]);
+    total = j["total"];
+    totalWithDiscount = j["totalWithDiscount"];
+}

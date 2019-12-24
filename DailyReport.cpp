@@ -88,7 +88,6 @@ json DailyReport::jsonSerialize() {
     return j;
 }
 
-
 void DailyReport::jsonDeserialize(ifstream &stream) {
     json j;
     stream >> j;
@@ -112,7 +111,7 @@ void DailyReport::searchByNum(const int num) {
         Array<Product *> products = orders[i]->getProducts();
         for (int j = 0; j < products.size(); ++j) {
             if (products[j]->getPrice() == num) {
-                cout << products[j] << endl;
+                cout << *products[j] << endl;
             }
         }
     }

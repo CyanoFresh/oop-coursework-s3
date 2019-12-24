@@ -7,7 +7,7 @@
 #include "Date.h"
 #include "Array.h"
 
-class Order: public Writable, public Readable {
+class Order : public Writable, public Readable {
     Customer *customer = nullptr;
     Array<Product *> products;
     Date date;
@@ -56,6 +56,11 @@ public:
     json jsonSerialize();
 
     void read(ifstream &stream) override;
+
+    template<class T>
+    Order operator+(T plusTotal);
+
+    void jsonDeserialize(json j);
 };
 
 

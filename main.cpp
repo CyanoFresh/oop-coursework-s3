@@ -6,7 +6,7 @@
 
 using namespace std;
 
-const int arrSize = 1;
+const int arrSize = 2;
 
 string inputFilename() {
     string filename;
@@ -55,7 +55,7 @@ void handleCmd(const char cmd, DailyReport *dailyReport) {
 
     switch (cmd) {
         case '1':
-            for (int i = 0; i < arrSize; ++i) {
+            for (int i = 0; i < 1; ++i) {
                 cout << "Filling Order #" << i + 1 << " of " << arrSize << endl;
 
                 auto order = new Order();
@@ -176,14 +176,23 @@ void handleCmd(const char cmd, DailyReport *dailyReport) {
 
                 cin >> choice;
 
+                cin.clear();
+                cin.sync();
+
                 if (choice == '1') {
+                    cout << "Enter text to search:" << endl;
                     string str;
                     getline(cin, str);
+                    cout << "Result:" << endl;
                     dailyReport->searchByText(str);
+                    choice = '0';
                 } else if (choice == '2') {
+                    cout << "Enter number to search:" << endl;
                     int look;
                     cin >> look;
+                    cout << "Result:" << endl;
                     dailyReport->searchByNum(look);
+                    choice = '0';
                 }
             } while (choice != '0');
 

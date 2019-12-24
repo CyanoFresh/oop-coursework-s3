@@ -131,7 +131,7 @@ template<typename T>
 void Array<T>::jsonDeserialize(json &j) {
     for (auto& element : j) {
         T t = T();
-        t.jsonDeserialize(element);
+        t->jsonDeserialize(element);
         assign(t);
     }
 }
