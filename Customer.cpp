@@ -123,3 +123,9 @@ void Customer::read(ifstream &ifstream) {
     ifstream.read((char *) &total, sizeof(total));
     ifstream.read((char *) &discount, sizeof(discount));
 }
+
+template<class T>
+Customer Customer::operator+(T plusTotal) {
+    total += plusTotal;
+    return *this;
+}

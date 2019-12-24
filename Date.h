@@ -4,11 +4,12 @@
 #include "ValidationException.h"
 #include "Writable.h"
 #include "nlohmann/json.hpp"
+#include "Readable.h"
 
 using namespace std;
 using namespace nlohmann;
 
-class Date: public Writable {
+class Date: public Writable, public Readable {
 private:
     int year = 0;
     int month = 0;
@@ -39,11 +40,11 @@ public:
 
     friend ostream &operator<<(ostream &os, const Date &date);
 
-    void write(ofstream &stream);
+    void write(ofstream &stream) override;
 
     json jsonSerialize();
 
-    void read(ifstream &ifstream);
+    void read(ifstream &ifstream) override;
 };
 
 

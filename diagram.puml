@@ -1,5 +1,12 @@
 @startuml
 
+abstract class Readable {
+    read()
+}
+abstract class Writeable {
+    write()
+}
+
 class Date {
     int year
     int month
@@ -20,14 +27,14 @@ class Product {
 
 class Order {
     Customer customer
-    Product *products
+    Array<Product *> products
     Date date
     float totalWithDiscount
     float total
 }
 
 class DailyReport {
-    Order *orders
+    Array<Order *> orders
     Date date
 }
 
@@ -37,5 +44,14 @@ Order o-- Customer
 
 DailyReport o-- Order
 DailyReport *-- Date
+
+Writeable <|.. Order
+Writeable <|. Product
+Writeable <|. Customer
+Writeable <|. Date
+Readable <|. Date
+Readable <|. Customer
+Readable <|. Product
+Readable <|.. Order
 
 @enduml

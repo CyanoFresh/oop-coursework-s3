@@ -31,5 +31,6 @@ add_executable(coursework
         ./table/TableExceptions.h
         Array.h
         Writable.h
+        Readable.h
         nlohmann/json.hpp
         )

@@ -180,12 +180,10 @@ void handleCmd(const char cmd, DailyReport *dailyReport) {
                     string str;
                     getline(cin, str);
                     dailyReport->searchByText(str);
-                    break;
                 } else if (choice == '2') {
                     int look;
                     cin >> look;
                     dailyReport->searchByNum(look);
-                    break;
                 }
             } while (choice != '0');
 

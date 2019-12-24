@@ -38,7 +38,11 @@ public:
 
     void clear();
 
-    void read(ifstream &stream);
+    void jsonDeserialize(ifstream &stream);
+
+    void searchByText(const string &str);
+
+    void searchByNum(const int num);
 };
 
 

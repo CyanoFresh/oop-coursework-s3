@@ -6,11 +6,12 @@
 #include "Writable.h"
 #include "nlohmann/json.hpp"
 #include "ValidationException.h"
+#include "Readable.h"
 
 using namespace std;
 using namespace nlohmann;
 
-class Customer: public Writable {
+class Customer: public Writable, public Readable {
     long id = 0;
     float total = 0;
     float discount = 0;
@@ -47,6 +48,9 @@ public:
     json jsonSerialize();
 
     void read(ifstream &ifstream);
+
+    template<class T>
+    Customer operator+(T plusTotal);
 };
 
 

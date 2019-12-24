@@ -5,11 +5,13 @@
 #include <ostream>
 #include "nlohmann/json.hpp"
 #include "ValidationException.h"
+#include "Readable.h"
+#include "Writable.h"
 
 using namespace std;
 using namespace nlohmann;
 
-class Product {
+class Product : public Readable, public Writable {
     string name;
     float price = 0;
     bool hasDiscount = false;
@@ -45,11 +47,14 @@ public:
 
     bool operator!=(const Product &rhs) const;
 
-    void write(ofstream &stream);
+    void write(ofstream &stream) override;
 
     json jsonSerialize();
 
-    void read(ifstream &stream);
+    void read(ifstream &stream) override;
+
+    template<class T>
+    Product operator+(T plusPrice);
 };
 
 

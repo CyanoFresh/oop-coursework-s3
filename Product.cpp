@@ -138,9 +138,12 @@ void Product::read(ifstream &stream) {
     stream.read((char *) &nameLength, sizeof(nameLength));
     name.resize(nameLength);
     stream.read((char *) &name[0], nameLength * sizeof(char));
-
-    cout << name <<endl;
-
     stream.read((char *) &price, sizeof(price));
     stream.read((char *) &hasDiscount, sizeof(hasDiscount));
+}
+
+template<class T>
+Product Product::operator+(T plusPrice) {
+    price += plusPrice;
+    return *this;
 }

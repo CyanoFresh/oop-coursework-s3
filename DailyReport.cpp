@@ -33,7 +33,7 @@ Order *DailyReport::operator[](int i) {
 ostream &operator<<(ostream &os, DailyReport *report) {
     os << "Order for " << report->date << endl;
 
-    ATable::Table *table = new ATable::Table(ATable::DefaultAppearance(), "Orders");
+    auto *table = new ATable::Table(ATable::DefaultAppearance(), "Orders");
     auto productTables = new vector<ATable::Table *>;
 
     table->addColumn(new ATable::SimpleColumn("Order #", 20));
@@ -86,4 +86,34 @@ json DailyReport::jsonSerialize() {
     j["date"] = date.jsonSerialize();
     j["orders"] = orders.jsonSerialize();
     return j;
+}
+
+
+void DailyReport::jsonDeserialize(ifstream &stream) {
+    json j;
+    stream >> j;
+    date = Date(j["date"][0], j["date"][1], j["date"][2]);
+    orders.jsonDeserialize(j["products"]);
+}
+
+void DailyReport::searchByText(const string &str) {
+    for (int i = 0; i < orders.size(); ++i) {
+        Array<Product *> products = orders[i]->getProducts();
+        for (int j = 0; j < products.size(); ++j) {
+            if (products[j]->getName().find(str) == std::string::npos) {
+                cout << products[j] << endl;
+            }
+        }
+    }
+}
+
+void DailyReport::searchByNum(const int num) {
+    for (int i = 0; i < orders.size(); ++i) {
+        Array<Product *> products = orders[i]->getProducts();
+        for (int j = 0; j < products.size(); ++j) {
+            if (products[j]->getPrice() == num) {
+                cout << products[j] << endl;
+            }
+        }
+    }
 }

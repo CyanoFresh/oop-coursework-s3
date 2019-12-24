@@ -115,6 +115,8 @@ public:
         }
         return arr;
     }
+
+    void jsonDeserialize(json &j);
 };
 
 template<typename T>
@@ -124,5 +126,14 @@ Array<T>::~Array() {
 
 template<typename T>
 Array<T>::Array() : _size(0), _capacity(10000), data(new T[1]) {}
+
+template<typename T>
+void Array<T>::jsonDeserialize(json &j) {
+    for (auto& element : j) {
+        T t = T();
+        t.jsonDeserialize(element);
+        assign(t);
+    }
+}
 
 #endif //COURSEWORK_ARRAY_H
